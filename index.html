@@ -1,49 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Cricket Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Game</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Real Cricket Game</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Toss and Batting/Bowling Selection</h2>
-            <button id="startTossBtn">Start Toss</button>
-        </section>
+  <div id="game-container">
+    <h1>Cricket Game</h1>
+    <div id="tournament-selection">
+      <h2>Select Tournament</h2>
+      <select id="tournament">
+        <option value="ipl">IPL 2025</option>
+        <option value="t20wc">T20 World Cup 2024</option>
+        <option value="odiwc">ODI World Cup 2023</option>
+        <option value="wtc">World Test Championship</option>
+        <option value="random">Random Match</option>
+      </select>
+      <button id="start-game">Start Game</button>
+    </div>
 
-        <section id="playerSelection">
-            <h2>Select Players</h2>
-            <button onclick="selectPlayers()">Select Players</button>
-        </section>
+    <div id="team-selection" style="display: none;">
+      <h2>Choose Your Team</h2>
+      <select id="team1"></select>
+      <h2>Choose Opponent Team</h2>
+      <select id="team2"></select>
+      <button id="start-match">Start Match</button>
+    </div>
 
-        <section>
-            <h3>Scorecard:</h3>
-            <div id="scorecard"></div>
-            <div id="matchStatus"></div>
-        </section>
-
-        <section>
-            <h3>Fielding:</h3>
-            <p>Select a fielder:</p>
-            <div id="fielders">
-                <button id="Fielder 1">Fielder 1</button>
-                <button id="Fielder 2">Fielder 2</button>
-                <button id="Fielder 3">Fielder 3</button>
-                <button id="Fielder 4">Fielder 4</button>
-                <button id="Fielder 5">Fielder 5</button>
-                <button id="Fielder 6">Fielder 6</button>
-                <button id="Fielder 7">Fielder 7</button>
-                <button id="Fielder 8">Fielder 8</button>
-                <button id="Fielder 9">Fielder 9</button>
-            </div>
-        </section>
-
-        <script src="script.js"></script>
-    </main>
+    <div id="match-content" style="display: none;">
+      <h2 id="match-heading"></h2>
+      <div id="scoreboard"></div>
+      <div id="commentary-box"></div>
+      <div id="actions">
+        <button id="bat">Bat</button>
+        <button id="bowl">Bowl</button>
+        <button id="field">Field</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
