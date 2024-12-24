@@ -201,4 +201,51 @@ function goodShot() {
     playCommentary(commentaryText);
     displayCommentary(commentaryText);
 }
+    function renderCrowd() {
+  const crowd = document.getElementById("crowd");
+  const team1Supporters = Math.floor(Math.random() * 50) + 25; // 25% to 75% range
+  const team2Supporters = 100 - team1Supporters;
+
+  crowd.innerHTML = ""; // Clear the crowd
+  for (let i = 0; i < team1Supporters; i++) {
+    const fan = document.createElement("div");
+    fan.classList.add("fan", "supporting-team1");
+    crowd.appendChild(fan);
+  }
+  for (let i = 0; i < team2Supporters; i++) {
+    const fan = document.createElement("div");
+    fan.classList.add("fan", "supporting-team2");
+    crowd.appendChild(fan);
+  }
+
+  document.getElementById("fan-support-levels").innerText = 
+    `${team1Supporters}% ${selectedTeams.team1} vs ${team2Supporters}% ${selectedTeams.team2}`;
+}
+
+function updateCrowdReactions(event) {
+  const commentaryBox = document.getElementById("commentary-box");
+  const reaction = document.createElement("p");
+
+  if (event === "boundary") {
+    reaction.innerText = `${selectedTeams.team1} fans erupt in cheers for that boundary!`;
+  } else if (event === "wicket") {
+    reaction.innerText = `${selectedTeams.team2} fans are over the moon with that wicket!`;
+  } else if (event === "tense") {
+    reaction.innerText = `The stadium is electric, fans from both sides are on edge!`;
+  } else {
+    reaction.innerText = `The fans are enjoying the game!`;
+  }
+
+  commentaryBox.appendChild(reaction);
+  commentaryBox.scrollTop = commentaryBox.scrollHeight; // Auto-scroll to the latest reaction
+}
+
+// Call renderCrowd when the match starts
+document.getElementById("start-match").addEventListener("click", () => {
+  renderCrowd();
+});
+
+// Update crowd reactions based on events
+document.getElementById("bat").addEventListener("click", () => updateCrowdReactions("boundary"));
+document.getElementById("bowl").addEventListener("click", () => updateCrowdReactions("wicket"));
 }
