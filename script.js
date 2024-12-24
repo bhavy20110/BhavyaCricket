@@ -7,7 +7,78 @@ let squad = [
 ];
 let runs = 0;
 let ballDirection = ["left", "right", "straight"];
+// Teams and Squads for all tournaments
+const squads = {
+  ipl: {
+    "Mumbai Indians": ["Rohit Sharma", "Ishan Kishan", "Suryakumar Yadav", "Cameron Green", "Tilak Varma", "Tim David", "Jofra Archer"],
+    "Chennai Super Kings": ["MS Dhoni", "Ruturaj Gaikwad", "Devon Conway", "Ravindra Jadeja", "Deepak Chahar"],
+    "Gujarat Titans": ["Shubman Gill", "Hardik Pandya", "Mohammed Shami", "Rashid Khan"],
+    "Lucknow Super Giants": ["KL Rahul", "Nicholas Pooran", "Avesh Khan", "Ravi Bishnoi"],
+    // Add remaining IPL teams and squads...
+  },
+  t20wc: {
+    India: ["Rohit Sharma", "Shubman Gill", "Virat Kohli", "Hardik Pandya", "Ravindra Jadeja", "Jasprit Bumrah", "Mohammed Siraj"],
+    Australia: ["David Warner", "Steve Smith", "Mitchell Marsh", "Pat Cummins", "Josh Hazlewood"],
+    // Add remaining T20 WC teams...
+  },
+  odiwc: {
+    India: ["Rohit Sharma", "Virat Kohli", "Shubman Gill", "KL Rahul", "Hardik Pandya", "Jasprit Bumrah"],
+    England: ["Joe Root", "Ben Stokes", "Jos Buttler", "Jofra Archer", "Jonny Bairstow"],
+    // Add remaining ODI WC teams...
+  },
+  wtc: {
+    India: ["Rohit Sharma", "Shubman Gill", "Cheteshwar Pujara", "Virat Kohli", "Ravindra Jadeja", "Jasprit Bumrah"],
+    Australia: ["Usman Khawaja", "Steve Smith", "Marnus Labuschagne", "Pat Cummins", "Nathan Lyon"],
+    // Add remaining WTC teams...
+  },
+};
 
+// Game State
+let selectedTournament = "";
+let selectedTeams = { team1: "", team2: "" };
+let matchInProgress = false;
+
+// Populate Teams
+function populateTeams(tournament) {
+  const teams = Object.keys(squads[tournament]);
+  const team1Select = document.getElementById("team1");
+  const team2Select = document.getElementById("team2");
+
+  team1Select.innerHTML = teams.map(team => `<option value="${team}">${team}</option>`).join("");
+  team2Select.innerHTML = teams.map(team => `<option value="${team}">${team}</option>`).join("");
+}
+
+// Start Game
+document.getElementById("start-game").addEventListener("click", () => {
+  selectedTournament = document.getElementById("tournament").value;
+  populateTeams(selectedTournament);
+  document.getElementById("tournament-selection").style.display = "none";
+  document.getElementById("team-selection").style.display = "block";
+});
+
+// Start Match
+document.getElementById("start-match").addEventListener("click", () => {
+  selectedTeams.team1 = document.getElementById("team1").value;
+  selectedTeams.team2 = document.getElementById("team2").value;
+  document.getElementById("team-selection").style.display = "none";
+  document.getElementById("match-content").style.display = "block";
+  document.getElementById("match-heading").innerText = `${selectedTeams.team1} vs ${selectedTeams.team2}`;
+  startMatch();
+});
+
+// Match Logic
+function startMatch() {
+  // Reset match state and UI
+  const scoreboard = document.getElementById("scoreboard");
+  const commentaryBox = document.getElementById("commentary-box");
+  scoreboard.innerHTML = "<p>Match Started!</p>";
+  commentaryBox.innerHTML = "<p>Welcome to the match!</p>";
+
+  matchInProgress = true;
+  // Implement batting, bowling, fielding logic here
+}
+
+// Add more features like score updates, commentary, batting/bowling/fielding actions...
 // Start toss function
 document.getElementById("startTossBtn").addEventListener("click", simulateToss);
 
