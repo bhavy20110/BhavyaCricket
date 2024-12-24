@@ -249,3 +249,37 @@ document.getElementById("start-match").addEventListener("click", () => {
 document.getElementById("bat").addEventListener("click", () => updateCrowdReactions("boundary"));
 document.getElementById("bowl").addEventListener("click", () => updateCrowdReactions("wicket"));
 }
+const players = [
+  { name: "Shubman Gill", type: "batsman", color: "#4287f5" },
+  { name: "Jasprit Bumrah", type: "bowler", color: "#f54242" },
+];
+
+players.forEach((player, index) => {
+  const playerDiv = document.getElementById(`player${index + 1}`);
+  playerDiv.style.backgroundColor = player.color;
+
+  // Assign animation
+  if (player.type === "batsman") {
+    playerDiv.classList.add("batsman");
+  } else if (player.type === "bowler") {
+    playerDiv.classList.add("bowler");
+  }
+});
+const positions = [
+  { id: "player1", x: 200, y: 400 },
+  { id: "player2", x: 400, y: 200 },
+];
+
+positions.forEach(pos => {
+  const player = document.getElementById(pos.id);
+  player.style.left = `${pos.x}px`;
+  player.style.top = `${pos.y}px`;
+});
+function triggerAction(playerId, action) {
+  const player = document.getElementById(playerId);
+  player.classList.add(action); // Action like 'catch', 'throw', etc.
+  setTimeout(() => player.classList.remove(action), 1000); // Reset after 1s
+}
+
+// Triggering a batting shot
+triggerAction("player1", "batting");
