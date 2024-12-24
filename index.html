@@ -8,48 +8,46 @@
 </head>
 <body>
   <div id="game-container">
-    <h1>Cricket Game</h1>
-    <div id="tournament-selection">
-      <h2>Select Tournament</h2>
+    <header>
+      <h1>क्रिकेट गेम</h1>
+      <p id="match-heading">टूर्नामेंट चुनें और मैच शुरू करें!</p>
+    </header>
+
+    <section id="tournament-selection">
+      <h2>टूर्नामेंट चुनें</h2>
       <select id="tournament">
-        <option value="ipl">ipl</option>
-        <option value="t20wc">t20wc</option>
-        <option value="odiwc">odiwc</option>
-        <option value="wtc">wtc</option>
-        <option value="random">Random Match</option>
+        <option value="ipl">IPL</option>
+        <option value="odiwc">ODI World Cup</option>
+        <option value="t20wc">T20 World Cup</option>
+        <option value="wtc">World Test Championship</option>
       </select>
-      <button id="start-game">Start Game</button>
-    </div>
+      <button id="start-game">शुरू करें</button>
+    </section>
 
-    <div id="team-selection" style="display: none;">
-      <h2>Choose Your Team</h2>
+    <section id="team-selection" style="display: none;">
+      <h2>टीम का चयन करें</h2>
+      <label for="team1">टीम 1:</label>
       <select id="team1"></select>
-      <h2>Choose Opponent Team</h2>
+      <label for="team2">टीम 2:</label>
       <select id="team2"></select>
-      <button id="start-match">Start Match</button>
-    </div>
+      <button id="start-match">मैच शुरू करें</button>
+    </section>
 
-    <div id="match-content" style="display: none;">
+    <section id="match-content" style="display: none;">
       <h2 id="match-heading"></h2>
-      <div id="scoreboard"></div>
-      <div id="commentary-box"></div>
-      <div id="actions">
-        <button id="bat">Bat</button>
-        <button id="bowl">Bowl</button>
-        <button id="field">Field</button>
+      <div id="scoreboard">
+        <p>स्कोर: 0/0</p>
+        <p>ओवर: 0.0</p>
       </div>
-    </div>
+      <div id="commentary-box"></div>
+      <div id="stadium"></div>
+      <div id="controls">
+        <button id="bat">बैटिंग</button>
+        <button id="bowl">बॉलिंग</button>
+        <button id="field">फील्डिंग</button>
+      </div>
+    </section>
   </div>
-  <div id="stadium">
-  <div id="crowd">
-    <!-- Dynamic crowd visuals will be added here -->
-  </div>
-</div>
-<div id="fan-support">
-  <p>Fan Support: <span id="fan-support-levels"></span></p>
-</div>
-  <div id="player1" class="player"></div>
-<div id="player2" class="player"></div>
   <script src="script.js"></script>
 </body>
 </html>
