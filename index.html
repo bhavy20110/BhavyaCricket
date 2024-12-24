@@ -61,7 +61,56 @@
   <footer>
     <p>Cricket Game - Ultimate League &copy; 2024. Developed with passion!</p>
   </footer>
-
+<!-- Batting actions section -->
+<div id="battingActions">
+    <button id="frontFoot">Front Foot</button>
+    <button id="backFoot">Back Foot</button>
+    <button id="leave">Leave</button>
+    <button id="advance">Advance</button>
+    <button id="push">Push</button>
+    <button id="loft">Loft</button>
+    <button id="stroke">Stroke</button>
+</div>
+  <!-- Bowling actions section -->
+<div id="bowlingActions">
+    <button id="fastDelivery">Fast Delivery</button>
+    <button id="spinDelivery">Spin Delivery</button>
+    <button id="yorker">Yorker</button>
+</div>
+  <!-- Fielding actions section -->
+<div id="fieldingActions">
+    <button id="fielderCatch">Fielder Catch</button>
+</div>
+  <!-- Points Table -->
+<table id="pointsTable">
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th>Played</th>
+            <th>Won</th>
+            <th>Lost</th>
+            <th>Points</th>
+            <th>NRR</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="team1Stats">
+            <td>Team 1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0</td>
+        </tr>
+    </tbody>
+</table>
+  <!-- Match Format Selection -->
+<select id="matchFormat">
+    <option value="t20">T20</option>
+    <option value="odi">ODI</option>
+    <option value="test">Test</option>
+</select>
+  
   <script src="script.js"></script>
 </body>
 </html>
