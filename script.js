@@ -186,12 +186,12 @@ const squads = {
       "Pradeep Sangwan"
     ]
   },
-  t20WorldCup2024: {
+  t20wc: {
     "India": [
       "Rohit Sharma (c)",
       "KL Rahul",
       "Virat Kohli",
-      "Suryakumar Yadav",
+      "Shubman Gill",
       "Rishabh Pant (wk)",
       "Hardik Pandya",
       "Ravindra Jadeja",
@@ -256,7 +256,7 @@ const squads = {
       "Usman Qadir"
     ]
   },
-odiWorldCup: {
+odiwc: {
     "India": [
       "Rohit Sharma (c)",
       "Shubman Gill",
