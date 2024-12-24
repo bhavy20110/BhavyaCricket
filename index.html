@@ -1,116 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cricket Game - Ultimate League</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Cricket Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <h1>Cricket Game - Ultimate League</h1>
-    <p>Choose your team, strategize, and lead your squad to victory!</p>
-  </header>
+    <header>
+        <h1>Real Cricket Game</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Toss and Batting/Bowling Selection</h2>
+            <button id="startTossBtn">Start Toss</button>
+        </section>
 
-  <!-- Team Selection -->
-  <section id="team-selection">
-    <h2>Choose Your Teams</h2>
-    <div>
-      <label for="player-team">Your Team:</label>
-      <select id="player-team"></select>
-    </div>
-    <div>
-      <label for="opponent-team">Opponent Team:</label>
-      <select id="opponent-team"></select>
-    </div>
-    <button id="start-game">Start Game</button>
-  </section>
+        <section id="playerSelection">
+            <h2>Select Players</h2>
+            <button onclick="selectPlayers()">Select Players</button>
+        </section>
 
-  <!-- Match Area -->
-  <section id="match-area" style="display: none;">
-    <h2 id="match-title"></h2>
-    <div id="scoreboard">
-      <div id="player-score">Your Score: 0/0</div>
-      <div id="opponent-score">Opponent Score: 0/0</div>
-      <div id="overs">Overs: 0.0</div>
-    </div>
+        <section>
+            <h3>Scorecard:</h3>
+            <div id="scorecard"></div>
+            <div id="matchStatus"></div>
+        </section>
 
-    <div id="game-options">
-      <button id="bowl-button" style="display: none;">Bowl</button>
-      <button id="bat-button" style="display: none;">Bat</button>
-    </div>
+        <section>
+            <h3>Fielding:</h3>
+            <p>Select a fielder:</p>
+            <div id="fielders">
+                <button id="Fielder 1">Fielder 1</button>
+                <button id="Fielder 2">Fielder 2</button>
+                <button id="Fielder 3">Fielder 3</button>
+                <button id="Fielder 4">Fielder 4</button>
+                <button id="Fielder 5">Fielder 5</button>
+                <button id="Fielder 6">Fielder 6</button>
+                <button id="Fielder 7">Fielder 7</button>
+                <button id="Fielder 8">Fielder 8</button>
+                <button id="Fielder 9">Fielder 9</button>
+            </div>
+        </section>
 
-    <!-- Commentary Section -->
-    <div id="commentary-box">
-      <h3>Commentary</h3>
-      <div id="commentary-log"></div>
-    </div>
-  </section>
-
-  <!-- Progress Saving -->
-  <section id="progress-save">
-    <h2>Save Your Progress</h2>
-    <div>
-      <button id="save-offline">Save Progress Locally</button>
-      <button id="save-google" style="display: none;">Save Progress with Google</button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>Cricket Game - Ultimate League &copy; 2024. Developed with passion!</p>
-  </footer>
-<!-- Batting actions section -->
-<div id="battingActions">
-    <button id="frontFoot">Front Foot</button>
-    <button id="backFoot">Back Foot</button>
-    <button id="leave">Leave</button>
-    <button id="advance">Advance</button>
-    <button id="push">Push</button>
-    <button id="loft">Loft</button>
-    <button id="stroke">Stroke</button>
-</div>
-  <!-- Bowling actions section -->
-<div id="bowlingActions">
-    <button id="fastDelivery">Fast Delivery</button>
-    <button id="spinDelivery">Spin Delivery</button>
-    <button id="yorker">Yorker</button>
-</div>
-  <!-- Fielding actions section -->
-<div id="fieldingActions">
-    <button id="fielderCatch">Fielder Catch</button>
-</div>
-  <!-- Points Table -->
-<table id="pointsTable">
-    <thead>
-        <tr>
-            <th>Team</th>
-            <th>Played</th>
-            <th>Won</th>
-            <th>Lost</th>
-            <th>Points</th>
-            <th>NRR</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="team1Stats">
-            <td>Team 1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0.0</td>
-        </tr>
-    </tbody>
-</table>
-  <!-- Match Format Selection -->
-<select id="matchFormat">
-    <option value="t20">T20</option>
-    <option value="odi">ODI</option>
-    <option value="test">Test</option>
-</select>
-  
-  <script src="script.js"></script>
+        <script src="script.js"></script>
+    </main>
 </body>
 </html>
