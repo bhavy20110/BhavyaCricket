@@ -78,3 +78,32 @@ button:hover {
   font-weight: bold;
   text-align: center;
 }
+.player {
+  width: 50px;
+  height: 150px;
+  background-color: #fff; /* Placeholder */
+  position: absolute;
+  animation: idle 1s infinite;
+}
+
+/* Batting Animation */
+@keyframes batting {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.batsman {
+  animation: batting 0.5s infinite;
+}
+
+/* Bowling Animation */
+@keyframes bowling {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(30deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.bowler {
+  animation: bowling 1s infinite;
+}
