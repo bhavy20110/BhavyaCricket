@@ -397,6 +397,7 @@ wtc: {
     ]
   }
 };
+
 // Stadium Setup
 function setupStadium() {
   const stadium = document.getElementById("stadium");
@@ -426,7 +427,7 @@ function startMatch() {
   matchInProgress = true;
   resetScoreboard();
   setupStadium();
-  commentary.push("Match started! Let the game begin!");
+  commentary.push("मैच शुरू हो गया है! खेल का आनंद लें।");
   updateCommentary();
 }
 
@@ -442,33 +443,33 @@ function resetScoreboard() {
 // Update Scoreboard
 function updateScoreboard() {
   document.getElementById("scoreboard").innerHTML = `
-    <p>Runs: ${runs}</p>
-    <p>Balls: ${balls}</p>
-    <p>Wickets: ${wickets}</p>
-    <p>Overs: ${overs}.${balls % 6}</p>
+    <p>रन: ${runs}</p>
+    <p>गेंदें: ${balls}</p>
+    <p>विकेट: ${wickets}</p>
+    <p>ओवर: ${overs}.${balls % 6}</p>
   `;
 }
 
 // Batting Mechanics
 function bat() {
-  if (!matchInProgress) return alert("Start the match first!");
+  if (!matchInProgress) return alert("पहले मैच शुरू करें!");
   const outcome = Math.random();
   balls++;
   if (balls % 6 === 0) overs++;
   if (outcome < 0.2) {
     wickets++;
-    commentary.push("Wicket! The batter is out.");
+    commentary.push("विकेट! बल्लेबाज आउट हो गया।");
   } else if (outcome < 0.8) {
     const runsScored = Math.floor(Math.random() * 4 + 1);
     runs += runsScored;
-    commentary.push(`The batter scored ${runsScored} runs!`);
+    commentary.push(`बल्लेबाज ने ${runsScored} रन बनाए!`);
   } else {
     runs += 6;
-    commentary.push("It's a SIX! What a shot!");
+    commentary.push("क्या शॉट है! एक शानदार छक्का!");
   }
   if (wickets === 10) {
     matchInProgress = false;
-    commentary.push("All out! Innings over.");
+    commentary.push("सभी आउट! पारी खत्म।");
   }
   updateScoreboard();
   updateCommentary();
@@ -476,22 +477,22 @@ function bat() {
 
 // Bowling Mechanics
 function bowl() {
-  if (!matchInProgress) return alert("Start the match first!");
+  if (!matchInProgress) return alert("पहले मैच शुरू करें!");
   const outcome = Math.random();
   balls++;
   if (balls % 6 === 0) overs++;
   if (outcome < 0.2) {
-    commentary.push("The bowler has taken a wicket!");
+    commentary.push("गेंदबाज ने विकेट लिया है!");
     wickets++;
   } else if (outcome < 0.8) {
-    commentary.push("Dot ball! Excellent delivery.");
+    commentary.push("डॉट बॉल! शानदार गेंदबाजी।");
   } else {
-    commentary.push("Wide ball! Extra run awarded.");
+    commentary.push("वाइड बॉल! अतिरिक्त रन दिया गया।");
     runs++;
   }
   if (wickets === 10) {
     matchInProgress = false;
-    commentary.push("Innings over! The bowler has done it.");
+    commentary.push("पारी खत्म! गेंदबाज ने कमाल कर दिया।");
   }
   updateScoreboard();
   updateCommentary();
@@ -499,13 +500,13 @@ function bowl() {
 
 // Fielding Mechanics
 function field() {
-  if (!matchInProgress) return alert("Start the match first!");
+  if (!matchInProgress) return alert("पहले मैच शुरू करें!");
   const outcome = Math.random();
   if (outcome < 0.5) {
-    commentary.push("Amazing fielding! No runs taken.");
+    commentary.push("कमाल की फील्डिंग! कोई रन नहीं लिया गया।");
   } else {
     const runsSaved = Math.floor(Math.random() * 3);
-    commentary.push(`Fielding effort saved ${runsSaved} runs!`);
+    commentary.push(`फील्डिंग के प्रयास ने ${runsSaved} रन बचाए!`);
     runs -= runsSaved;
   }
   updateScoreboard();
