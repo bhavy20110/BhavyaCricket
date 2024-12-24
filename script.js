@@ -152,3 +152,52 @@ document.getElementById("field").addEventListener("click", () => {
   commentary.push("फील्डिंग जारी है।");
   updateCommentary();
 });
+// Display Players on Match Start
+function displayPlayers() {
+  const team1Players = squads[selectedTournament][selectedTeams.team1] || [];
+  const team2Players = squads[selectedTournament][selectedTeams.team2] || [];
+
+  // Team 1 Squad
+  const team1SquadElement = document.getElementById("team1-squad");
+  team1SquadElement.innerHTML = `<h3>${selectedTeams.team1} Players</h3>`;
+  team1Players.forEach(player => {
+    const playerDiv = document.createElement("div");
+    playerDiv.className = "player-card";
+    playerDiv.innerText = player;
+    team1SquadElement.appendChild(playerDiv);
+  });
+
+  // Team 2 Squad
+  const team2SquadElement = document.getElementById("team2-squad");
+  team2SquadElement.innerHTML = `<h3>${selectedTeams.team2} Players</h3>`;
+  team2Players.forEach(player => {
+    const playerDiv = document.createElement("div");
+    playerDiv.className = "player-card";
+    playerDiv.innerText = player;
+    team2SquadElement.appendChild(playerDiv);
+  });
+}
+
+// Start Match Event Listener
+document.getElementById("start-match").addEventListener("click", () => {
+  const team1 = document.getElementById("team1").value;
+  const team2 = document.getElementById("team2").value;
+
+  if (!team1 || !team2 || team1 === team2) {
+    alert("Please select two different teams.");
+    return;
+  }
+
+  // Save selected teams
+  selectedTeams.team1 = team1;
+  selectedTeams.team2 = team2;
+
+  // Transition to match content
+  document.getElementById("team-selection").style.display = "none";
+  document.getElementById("match-content").style.display = "block";
+
+  // Initialize match
+  document.getElementById("match-heading").innerText = `${team1} बनाम ${team2}`;
+  displayPlayers(); // Show players for both teams
+  startMatch();
+});
