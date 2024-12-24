@@ -105,4 +105,29 @@ function loadProgress() {
         gameState = JSON.parse(savedState);
         // Load the game state into the game
     }
+    // Example functions to trigger commentary on various events:
+
+function hitBoundary() {
+    const commentaryText = "शुभमन गिल ने चौका मारा!";
+    playCommentary(commentaryText);  // Play commentary
+    displayCommentary(commentaryText);  // Display commentary text
+}
+
+function takeWicket() {
+    const commentaryText = "विकेट! बल्लेबाज़ आउट हो गए!";
+    playCommentary(commentaryText);
+    displayCommentary(commentaryText);
+}
+
+function hitSix() {
+    const commentaryText = "क्या शॉट है! एक शानदार छक्का!";
+    playCommentary(commentaryText);
+    displayCommentary(commentaryText);
+}
+
+function goodShot() {
+    const commentaryText = "बेहतरीन शॉट! बल्लेबाज ने शानदार खेल दिखाया!";
+    playCommentary(commentaryText);
+    displayCommentary(commentaryText);
+}
 }
