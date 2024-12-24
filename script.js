@@ -93,3 +93,16 @@ function ballOutcome(runsScored, ballType) {
     updateScorecard();
     alert(`${runsScored} runs scored, Ball type: ${ballType}`);
 }
+// Save game progress
+function saveProgress() {
+    localStorage.setItem("gameState", JSON.stringify(gameState));
+}
+
+// Load game progress
+function loadProgress() {
+    let savedState = localStorage.getItem("gameState");
+    if (savedState) {
+        gameState = JSON.parse(savedState);
+        // Load the game state into the game
+    }
+}
