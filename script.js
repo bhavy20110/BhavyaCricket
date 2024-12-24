@@ -7,8 +7,9 @@ let wickets = 0;
 let overs = 0;
 let commentary = [];
 let matchInProgress = false;
-// Teams and Squads for all tournaments
-const squads = {
+
+// IPL Teams and Squads
+const iplTeams = {
   ipl: {
     "Mumbai Indians": [
       "Rohit Sharma",
