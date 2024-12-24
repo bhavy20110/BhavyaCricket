@@ -1,52 +1,42 @@
-/* Basic styling */
+/* General styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px;
+#game-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-size: 2em;
-}
-
-section {
-    margin: 20px;
+h1, h2 {
+  text-align: center;
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+  background-color: #0056b3;
 }
 
-#scorecard {
-    font-size: 1.2em;
-    margin: 20px 0;
-}
-
-#fielders button {
-    margin: 5px;
-    padding: 10px 20px;
-}
-
-#matchStatus {
-    font-size: 1.2em;
-    color: #ff4500;
+#scoreboard, #commentary-box {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
