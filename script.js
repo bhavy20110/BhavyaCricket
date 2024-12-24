@@ -1,285 +1,527 @@
 // Game logic variables
 let selectedBattingOrder = [];
 let selectedBowlingOrder = [];
-let squad = [
-    "Player 1", "Player 2", "Player 3", "Player 4", "Player 5",
-    "Player 6", "Player 7", "Player 8", "Player 9", "Player 10", "Player 11"
-];
 let runs = 0;
-let ballDirection = ["left", "right", "straight"];
+let balls = 0;
+let wickets = 0;
+let overs = 0;
+let commentary = [];
+let matchInProgress = false;
 // Teams and Squads for all tournaments
 const squads = {
   ipl: {
-    "Mumbai Indians": ["Rohit Sharma", "Ishan Kishan", "Suryakumar Yadav", "Cameron Green", "Tilak Varma", "Tim David", "Jofra Archer"],
-    "Chennai Super Kings": ["MS Dhoni", "Ruturaj Gaikwad", "Devon Conway", "Ravindra Jadeja", "Deepak Chahar"],
-    "Gujarat Titans": ["Shubman Gill", "Hardik Pandya", "Mohammed Shami", "Rashid Khan"],
-    "Lucknow Super Giants": ["KL Rahul", "Nicholas Pooran", "Avesh Khan", "Ravi Bishnoi"],
-    // Add remaining IPL teams and squads...
+    "Mumbai Indians": [
+      "Rohit Sharma",
+      "Suryakumar Yadav",
+      "Tilak Varma",
+      "Bevon Jacobs",
+      "Robin Minz",
+      "Ryan Rickelton",
+      "Krishnan Shrijith",
+      "Hardik Pandya",
+      "Naman Dhir",
+      "Will Jacks",
+      "Raj Angad Bawa",
+      "Vignesh Puthur",
+      "Allah Ghazanfar",
+      "Karn Sharma",
+      "Mitchell Santner",
+      "Jasprit Bumrah",
+      "Trent Boult",
+      "Reece Topley",
+      "Lizaad Williams",
+      "Arjun Tendulkar"
+    ],
+    "Chennai Super Kings": [
+      "MS Dhoni",
+      "Ruturaj Gaikwad",
+      "Devon Conway",
+      "Ambati Rayudu",
+      "Shivam Dube",
+      "Ravindra Jadeja",
+      "Moeen Ali",
+      "Deepak Chahar",
+      "Dwayne Bravo",
+      "Mitchell Santner",
+      "Shardul Thakur",
+      "Sam Curran",
+      "Imran Tahir",
+      "Josh Hazlewood",
+      "Lungi Ngidi"
+    ],
+    "Royal Challengers Bangalore": [
+      "Virat Kohli",
+      "Faf du Plessis",
+      "Glenn Maxwell",
+      "Dinesh Karthik",
+      "Harshal Patel",
+      "Mohammed Siraj",
+      "Wanindu Hasaranga",
+      "Shahbaz Ahmed",
+      "Josh Hazlewood",
+      "Anuj Rawat",
+      "Suyash Prabhudessai",
+      "Karn Sharma",
+      "David Willey",
+      "Mahipal Lomror",
+      "Finn Allen"
+    ],
+    "Kolkata Knight Riders": [
+      "Shreyas Iyer",
+      "Andre Russell",
+      "Sunil Narine",
+      "Venkatesh Iyer",
+      "Nitish Rana",
+      "Pat Cummins",
+      "Varun Chakravarthy",
+      "Shivam Mavi",
+      "Umesh Yadav",
+      "Tim Southee",
+      "Rinku Singh",
+      "Rahul Tripathi",
+      "Dinesh Karthik",
+      "Kuldeep Yadav",
+      "Lockie Ferguson"
+    ],
+    "Delhi Capitals": [
+      "Rishabh Pant",
+      "Prithvi Shaw",
+      "David Warner",
+      "Anrich Nortje",
+      "Axar Patel",
+      "Shardul Thakur",
+      "Mitchell Marsh",
+      "Kuldeep Yadav",
+      "Mustafizur Rahman",
+      "Chetan Sakariya",
+      "Lalit Yadav",
+      "Ripal Patel",
+      "Khaleel Ahmed",
+      "Sarfaraz Khan",
+      "Mandeep Singh"
+    ],
+    "Punjab Kings": [
+      "Shikhar Dhawan",
+      "Mayank Agarwal",
+      "Jonny Bairstow",
+      "Liam Livingstone",
+      "Kagiso Rabada",
+      "Arshdeep Singh",
+      "Rahul Chahar",
+      "Shahrukh Khan",
+      "Harpreet Brar",
+      "Raj Bawa",
+      "Rishi Dhawan",
+      "Nathan Ellis",
+      "Prabhsimran Singh",
+      "Odean Smith",
+      "Sandeep Sharma"
+    ],
+    "Rajasthan Royals": [
+      "Sanju Samson",
+      "Jos Buttler",
+      "Yashasvi Jaiswal",
+      "Devdutt Padikkal",
+      "Shimron Hetmyer",
+      "Ravichandran Ashwin",
+      "Trent Boult",
+      "Yuzvendra Chahal",
+      "Obed McCoy",
+      "Prasidh Krishna",
+      "Navdeep Saini",
+      "Riyan Parag",
+      "KC Cariappa",
+      "Daryl Mitchell",
+      "James Neesham"
+    ],
+    "Sunrisers Hyderabad": [
+      "Kane Williamson",
+      "Abhishek Sharma",
+      "Rahul Tripathi",
+      "Aiden Markram",
+      "Nicholas Pooran",
+      "Washington Sundar",
+      "Bhuvneshwar Kumar",
+      "T Natarajan",
+      "Umran Malik",
+      "Marco Jansen",
+      "Kartik Tyagi",
+      "Shreyas Gopal",
+      "Priyam Garg",
+      "Jagadeesha Suchith",
+      "Sean Abbott"
+    ],
+    "Lucknow Super Giants": [
+      "KL Rahul",
+      "Quinton de Kock",
+      "Deepak Hooda",
+      "Marcus Stoinis",
+      "Krunal Pandya",
+      "Jason Holder",
+      "Avesh Khan",
+      "Mark Wood",
+      "Ravi Bishnoi",
+      "Manish Pandey",
+      "Dushmantha Chameera",
+      "K Gowtham",
+      "Mohsin Khan",
+      "Ayush Badoni",
+      "Evin Lewis"
+    ],
+    "Gujarat Titans": [
+      "Hardik Pandya",
+      "Shubman Gill",
+      "David Miller",
+      "Rashid Khan",
+      "Mohammed Shami",
+      "Lockie Ferguson",
+      "Rahul Tewatia",
+      "Matthew Wade",
+      "Alzarri Joseph",
+      "Yash Dayal",
+      "Sai Sudharsan",
+      "Vijay Shankar",
+      "Abhinav Manohar",
+      "Jayant Yadav",
+      "Pradeep Sangwan"
+    ]
   },
-  t20wc: {
-    India: ["Rohit Sharma", "Shubman Gill", "Virat Kohli", "Hardik Pandya", "Ravindra Jadeja", "Jasprit Bumrah", "Mohammed Siraj"],
-    Australia: ["David Warner", "Steve Smith", "Mitchell Marsh", "Pat Cummins", "Josh Hazlewood"],
-    // Add remaining T20 WC teams...
+  t20WorldCup2024: {
+    "India": [
+      "Rohit Sharma (c)",
+      "KL Rahul",
+      "Virat Kohli",
+      "Suryakumar Yadav",
+      "Rishabh Pant (wk)",
+      "Hardik Pandya",
+      "Ravindra Jadeja",
+      "Yuzvendra Chahal",
+      "Jasprit Bumrah",
+      "Bhuvneshwar Kumar",
+      "Mohammed Shami",
+      "Axar Patel",
+      "Shreyas Iyer",
+      "Deepak Hooda",
+      "Harshal Patel"
+        }
+      Australia": [
+      "Aaron Finch (c)",
+      "David Warner",
+      "Steve Smith",
+      "Glenn Maxwell",
+      "Marcus Stoinis",
+      "Matthew Wade (wk)",
+      "Pat Cummins",
+      "Mitchell Starc",
+      "Josh Hazlewood",
+      "Adam Zampa",
+      "Ashton Agar",
+      "Kane Richardson",
+      "Daniel Sams",
+      "Mitchell Marsh",
+      "Tim David"
+    ],
+    "England": [
+      "Jos Buttler (c)",
+      "Jonny Bairstow",
+      "Dawid Malan",
+      "Ben Stokes",
+      "Moeen Ali",
+      "Liam Livingstone",
+      "Sam Curran",
+      "Chris Woakes",
+      "Jofra Archer",
+      "Adil Rashid",
+      "Mark Wood",
+      "Harry Brook",
+      "Reece Topley",
+      "Phil Salt",
+      "David Willey"
+    ],
+    "Pakistan": [
+      "Babar Azam (c)",
+      "Mohammad Rizwan (wk)",
+      "Fakhar Zaman",
+      "Haider Ali",
+      "Shadab Khan",
+      "Mohammad Nawaz",
+      "Shaheen Afridi",
+      "Haris Rauf",
+      "Naseem Shah",
+      "Imad Wasim",
+      "Asif Ali",
+      "Iftikhar Ahmed",
+      "Mohammad Wasim Jr.",
+      "Khushdil Shah",
+      "Usman Qadir"
+    ]
   },
-  odiwc: {
-    India: ["Rohit Sharma", "Virat Kohli", "Shubman Gill", "KL Rahul", "Hardik Pandya", "Jasprit Bumrah"],
-    England: ["Joe Root", "Ben Stokes", "Jos Buttler", "Jofra Archer", "Jonny Bairstow"],
-    // Add remaining ODI WC teams...
+odiWorldCup: {
+    "India": [
+      "Rohit Sharma (c)",
+      "Shubman Gill",
+      "Virat Kohli",
+      "KL Rahul",
+      "Hardik Pandya",
+      "Ravindra Jadeja",
+      "Mohammed Shami",
+      "Jasprit Bumrah",
+      "Kuldeep Yadav",
+      "Shardul Thakur",
+      "Ishan Kishan",
+      "Suryakumar Yadav",
+      "Axar Patel",
+      "Prasidh Krishna",
+      "Yuzvendra Chahal"
+    ],
+    "Australia": [
+      "Pat Cummins (c)",
+      "David Warner",
+      "Steve Smith",
+      "Marnus Labuschagne",
+      "Travis Head",
+      "Glenn Maxwell",
+      "Alex Carey (wk)",
+      "Mitchell Marsh",
+      "Adam Zampa",
+      "Josh Hazlewood",
+      "Mitchell Starc",
+      "Marcus Stoinis",
+      "Cameron Green",
+      "Ashton Agar",
+      "Sean Abbott"
+    ],
+    "England": [
+      "Jos Buttler (c)",
+      "Jason Roy",
+      "Jonny Bairstow",
+      "Joe Root",
+      "Ben Stokes",
+      "Moeen Ali",
+      "Sam Curran",
+      "Chris Woakes",
+      "Jofra Archer",
+      "Mark Wood",
+      "Adil Rashid",
+      "Liam Livingstone",
+      "Harry Brook",
+      "Reece Topley",
+      "Phil Salt"
+    ],
+    "New Zealand": [
+      "Kane Williamson (c)",
+      "Devon Conway",
+      "Finn Allen",
+      "Tom Latham (wk)",
+      "Glenn Phillips",
+      "Daryl Mitchell",
+      "Mitchell Santner",
+      "Tim Southee",
+      "Trent Boult",
+      "Lockie Ferguson",
+      "Ish Sodhi",
+      "James Neesham",
+      "Mark Chapman",
+      "Henry Nicholls",
+      "Kyle Jamieson"
+    ]
   },
-  wtc: {
-    India: ["Rohit Sharma", "Shubman Gill", "Cheteshwar Pujara", "Virat Kohli", "Ravindra Jadeja", "Jasprit Bumrah"],
-    Australia: ["Usman Khawaja", "Steve Smith", "Marnus Labuschagne", "Pat Cummins", "Nathan Lyon"],
-    // Add remaining WTC teams...
-  },
+wtc: {
+    "India": [
+      "Rohit Sharma (c)",
+      "Shubman Gill",
+      "Cheteshwar Pujara",
+      "Virat Kohli",
+      "Ajinkya Rahane",
+      "Ravindra Jadeja",
+      "Ravichandran Ashwin",
+      "Mohammed Shami",
+      "Jasprit Bumrah",
+      "Mohammed Siraj",
+      "KS Bharat (wk)",
+      "Axar Patel",
+      "Shardul Thakur",
+      "Jaydev Unadkat",
+      "Yashasvi Jaiswal"
+    ],
+    "Australia": [
+      "Pat Cummins (c)",
+      "David Warner",
+      "Usman Khawaja",
+      "Steve Smith",
+      "Marnus Labuschagne",
+      "Travis Head",
+      "Alex Carey (wk)",
+      "Mitchell Marsh",
+      "Mitchell Starc",
+      "Nathan Lyon",
+      "Josh Hazlewood",
+      "Cameron Green",
+      "Scott Boland",
+      "Michael Neser",
+      "Todd Murphy"
+    ],
+    "England": [
+      "Ben Stokes (c)",
+      "Zak Crawley",
+      "Ben Duckett",
+      "Joe Root",
+      "Harry Brook",
+      "Jonny Bairstow (wk)",
+      "Ollie Pope",
+      "Chris Woakes",
+      "Mark Wood",
+      "James Anderson",
+      "Stuart Broad",
+      "Jack Leach",
+      "Rehan Ahmed",
+      "Ollie Robinson",
+      "Will Jacks"
+    ],
+    "South Africa": [
+      "Dean Elgar (c)",
+      "Temba Bavuma",
+      "Aiden Markram",
+      "Rassie van der Dussen",
+      "Quinton de Kock (wk)",
+      "Keshav Maharaj",
+      "Kagiso Rabada",
+      "Anrich Nortje",
+      "Lungi Ngidi",
+      "Marco Jansen",
+      "Keegan Petersen",
+      "Reeza Hendricks",
+      "Dwaine Pretorius",
+      "Tabraiz Shamsi",
+      "Ryan Rickelton"
+    ]
+  }
 };
+// Stadium Setup
+function setupStadium() {
+  const stadium = document.getElementById("stadium");
+  stadium.style.backgroundColor = "green"; // Green grass
+  stadium.style.border = "5px solid brown"; // Stadium boundary
+  stadium.style.display = "flex";
+  stadium.style.justifyContent = "center";
+  stadium.style.alignItems = "center";
 
-// Game State
-let selectedTournament = "";
-let selectedTeams = { team1: "", team2: "" };
-let matchInProgress = false;
+  const pitch = document.createElement("div");
+  pitch.id = "pitch";
+  pitch.style.width = "200px";
+  pitch.style.height = "400px";
+  pitch.style.backgroundColor = "#d3d3d3"; // Pitch color
+  stadium.appendChild(pitch);
 
-// Populate Teams
-function populateTeams(tournament) {
-  const teams = Object.keys(squads[tournament]);
-  const team1Select = document.getElementById("team1");
-  const team2Select = document.getElementById("team2");
-
-  team1Select.innerHTML = teams.map(team => `<option value="${team}">${team}</option>`).join("");
-  team2Select.innerHTML = teams.map(team => `<option value="${team}">${team}</option>`).join("");
+  const fans = document.createElement("div");
+  fans.id = "fans";
+  fans.style.width = "100%";
+  fans.style.height = "50px";
+  fans.style.backgroundColor = "blue"; // Crowd color
+  stadium.appendChild(fans);
 }
-
-// Start Game
-document.getElementById("start-game").addEventListener("click", () => {
-  selectedTournament = document.getElementById("tournament").value;
-  populateTeams(selectedTournament);
-  document.getElementById("tournament-selection").style.display = "none";
-  document.getElementById("team-selection").style.display = "block";
-});
 
 // Start Match
-document.getElementById("start-match").addEventListener("click", () => {
-  selectedTeams.team1 = document.getElementById("team1").value;
-  selectedTeams.team2 = document.getElementById("team2").value;
-  document.getElementById("team-selection").style.display = "none";
-  document.getElementById("match-content").style.display = "block";
-  document.getElementById("match-heading").innerText = `${selectedTeams.team1} vs ${selectedTeams.team2}`;
-  startMatch();
-});
-
-// Match Logic
 function startMatch() {
-  // Reset match state and UI
-  const scoreboard = document.getElementById("scoreboard");
-  const commentaryBox = document.getElementById("commentary-box");
-  scoreboard.innerHTML = "<p>Match Started!</p>";
-  commentaryBox.innerHTML = "<p>Welcome to the match!</p>";
-
   matchInProgress = true;
-  // Implement batting, bowling, fielding logic here
+  resetScoreboard();
+  setupStadium();
+  commentary.push("Match started! Let the game begin!");
+  updateCommentary();
 }
 
-// Add more features like score updates, commentary, batting/bowling/fielding actions...
-// Start toss function
-document.getElementById("startTossBtn").addEventListener("click", simulateToss);
-
-function simulateToss() {
-    let tossOutcome = Math.random() > 0.5 ? "Heads" : "Tails";
-    alert(`Toss result: ${tossOutcome}`);
-    
-    let playerChoice = prompt("You won the toss! Do you want to Bat or Bowl first? (Enter 'bat' or 'bowl')");
-    let aiChoice = Math.random() > 0.5 ? "bat" : "bowl";
-    
-    alert(`You chose to ${playerChoice}, and the AI chose to ${aiChoice}.`);
-    startMatch(playerChoice, aiChoice);
+// Reset Scoreboard
+function resetScoreboard() {
+  runs = 0;
+  balls = 0;
+  wickets = 0;
+  overs = 0;
+  updateScoreboard();
 }
 
-function startMatch(playerChoice, aiChoice) {
-    console.log(`Match Started! Player chose to ${playerChoice}, AI chose to ${aiChoice}`);
+// Update Scoreboard
+function updateScoreboard() {
+  document.getElementById("scoreboard").innerHTML = `
+    <p>Runs: ${runs}</p>
+    <p>Balls: ${balls}</p>
+    <p>Wickets: ${wickets}</p>
+    <p>Overs: ${overs}.${balls % 6}</p>
+  `;
 }
 
-// Player selection function
-function selectPlayers() {
-    selectedBattingOrder = [];
-    selectedBowlingOrder = [];
-    
-    for (let i = 0; i < 11; i++) {
-        let playerChoice = prompt(`Select player ${i + 1} for your team (from squad)`);
-        selectedBattingOrder.push(playerChoice);
-        if (i < 6) selectedBowlingOrder.push(playerChoice);  // First 6 players can bowl
-    }
-    
-    console.log("Batting Order:", selectedBattingOrder);
-    console.log("Bowling Order:", selectedBowlingOrder);
-    updateScorecard();
-}
-
-function updateScorecard() {
-    document.getElementById("scorecard").innerHTML = `
-        <p>Batter: ${selectedBattingOrder[0]}</p>
-        <p>Batter 2: ${selectedBattingOrder[1]}</p>
-        <p>Bowler: ${selectedBowlingOrder[0]}</p>
-        <p>Runs: ${runs}</p>
-    `;
-}
-
-// Fielding actions
-function simulateFieldingAction(fielder) {
-    let outcome = Math.random() > 0.5 ? "successful" : "failed";
-    let direction = ballDirection[Math.floor(Math.random() * ballDirection.length)];
-    
-    alert(`${fielder} attempted a field in direction: ${direction}, and it was ${outcome}`);
-    
-    if (outcome === "failed") {
-        updateMatchStatus("run");
-    } else {
-        updateMatchStatus("fielded");
-    }
-}
-
-function updateMatchStatus(action) {
-    let statusMessage = action === "run" ? "The ball went for a run!" : "The ball was successfully fielded!";
-    document.getElementById("matchStatus").innerHTML = statusMessage;
-}
-
-// Fielding buttons event listeners
-document.querySelectorAll("#fielders button").forEach(button => {
-    button.addEventListener("click", () => simulateFieldingAction(button.id));
-});
-
-// Additional Functions (for realistic gameplay)
-
-// Simulate batter and bowler switching
-function switchBatterAndBowler() {
-    let currentBatter = selectedBattingOrder.shift();  // remove the first batter
-    selectedBattingOrder.push(currentBatter);  // move him to the end of the line-up
-    let currentBowler = selectedBowlingOrder.shift();  // remove the bowler
-    selectedBowlingOrder.push(currentBowler);  // add him back to the bowling line-up
-    updateScorecard();
-    alert("Batter and Bowler switched!");
-}
-
-// Update the scorecard with each ball
-function ballOutcome(runsScored, ballType) {
+// Batting Mechanics
+function bat() {
+  if (!matchInProgress) return alert("Start the match first!");
+  const outcome = Math.random();
+  balls++;
+  if (balls % 6 === 0) overs++;
+  if (outcome < 0.2) {
+    wickets++;
+    commentary.push("Wicket! The batter is out.");
+  } else if (outcome < 0.8) {
+    const runsScored = Math.floor(Math.random() * 4 + 1);
     runs += runsScored;
-    updateScorecard();
-    alert(`${runsScored} runs scored, Ball type: ${ballType}`);
-}
-// Save game progress
-function saveProgress() {
-    localStorage.setItem("gameState", JSON.stringify(gameState));
-}
-
-// Load game progress
-function loadProgress() {
-    let savedState = localStorage.getItem("gameState");
-    if (savedState) {
-        gameState = JSON.parse(savedState);
-        // Load the game state into the game
-    }
-    // Example functions to trigger commentary on various events:
-
-function hitBoundary() {
-    const commentaryText = "शुभमन गिल ने चौका मारा!";
-    playCommentary(commentaryText);  // Play commentary
-    displayCommentary(commentaryText);  // Display commentary text
-}
-
-function takeWicket() {
-    const commentaryText = "विकेट! बल्लेबाज़ आउट हो गए!";
-    playCommentary(commentaryText);
-    displayCommentary(commentaryText);
-}
-
-function hitSix() {
-    const commentaryText = "क्या शॉट है! एक शानदार छक्का!";
-    playCommentary(commentaryText);
-    displayCommentary(commentaryText);
-}
-
-function goodShot() {
-    const commentaryText = "बेहतरीन शॉट! बल्लेबाज ने शानदार खेल दिखाया!";
-    playCommentary(commentaryText);
-    displayCommentary(commentaryText);
-}
-    function renderCrowd() {
-  const crowd = document.getElementById("crowd");
-  const team1Supporters = Math.floor(Math.random() * 50) + 25; // 25% to 75% range
-  const team2Supporters = 100 - team1Supporters;
-
-  crowd.innerHTML = ""; // Clear the crowd
-  for (let i = 0; i < team1Supporters; i++) {
-    const fan = document.createElement("div");
-    fan.classList.add("fan", "supporting-team1");
-    crowd.appendChild(fan);
-  }
-  for (let i = 0; i < team2Supporters; i++) {
-    const fan = document.createElement("div");
-    fan.classList.add("fan", "supporting-team2");
-    crowd.appendChild(fan);
-  }
-
-  document.getElementById("fan-support-levels").innerText = 
-    `${team1Supporters}% ${selectedTeams.team1} vs ${team2Supporters}% ${selectedTeams.team2}`;
-}
-
-function updateCrowdReactions(event) {
-  const commentaryBox = document.getElementById("commentary-box");
-  const reaction = document.createElement("p");
-
-  if (event === "boundary") {
-    reaction.innerText = `${selectedTeams.team1} fans erupt in cheers for that boundary!`;
-  } else if (event === "wicket") {
-    reaction.innerText = `${selectedTeams.team2} fans are over the moon with that wicket!`;
-  } else if (event === "tense") {
-    reaction.innerText = `The stadium is electric, fans from both sides are on edge!`;
+    commentary.push(`The batter scored ${runsScored} runs!`);
   } else {
-    reaction.innerText = `The fans are enjoying the game!`;
+    runs += 6;
+    commentary.push("It's a SIX! What a shot!");
   }
-
-  commentaryBox.appendChild(reaction);
-  commentaryBox.scrollTop = commentaryBox.scrollHeight; // Auto-scroll to the latest reaction
-}
-
-// Call renderCrowd when the match starts
-document.getElementById("start-match").addEventListener("click", () => {
-  renderCrowd();
-});
-
-// Update crowd reactions based on events
-document.getElementById("bat").addEventListener("click", () => updateCrowdReactions("boundary"));
-document.getElementById("bowl").addEventListener("click", () => updateCrowdReactions("wicket"));
-}
-const players = [
-  { name: "Shubman Gill", type: "batsman", color: "#4287f5" },
-  { name: "Jasprit Bumrah", type: "bowler", color: "#f54242" },
-];
-
-players.forEach((player, index) => {
-  const playerDiv = document.getElementById(`player${index + 1}`);
-  playerDiv.style.backgroundColor = player.color;
-
-  // Assign animation
-  if (player.type === "batsman") {
-    playerDiv.classList.add("batsman");
-  } else if (player.type === "bowler") {
-    playerDiv.classList.add("bowler");
+  if (wickets === 10) {
+    matchInProgress = false;
+    commentary.push("All out! Innings over.");
   }
-});
-const positions = [
-  { id: "player1", x: 200, y: 400 },
-  { id: "player2", x: 400, y: 200 },
-];
-
-positions.forEach(pos => {
-  const player = document.getElementById(pos.id);
-  player.style.left = `${pos.x}px`;
-  player.style.top = `${pos.y}px`;
-});
-function triggerAction(playerId, action) {
-  const player = document.getElementById(playerId);
-  player.classList.add(action); // Action like 'catch', 'throw', etc.
-  setTimeout(() => player.classList.remove(action), 1000); // Reset after 1s
+  updateScoreboard();
+  updateCommentary();
 }
 
-// Triggering a batting shot
-triggerAction("player1", "batting");
+// Bowling Mechanics
+function bowl() {
+  if (!matchInProgress) return alert("Start the match first!");
+  const outcome = Math.random();
+  balls++;
+  if (balls % 6 === 0) overs++;
+  if (outcome < 0.2) {
+    commentary.push("The bowler has taken a wicket!");
+    wickets++;
+  } else if (outcome < 0.8) {
+    commentary.push("Dot ball! Excellent delivery.");
+  } else {
+    commentary.push("Wide ball! Extra run awarded.");
+    runs++;
+  }
+  if (wickets === 10) {
+    matchInProgress = false;
+    commentary.push("Innings over! The bowler has done it.");
+  }
+  updateScoreboard();
+  updateCommentary();
+}
+
+// Fielding Mechanics
+function field() {
+  if (!matchInProgress) return alert("Start the match first!");
+  const outcome = Math.random();
+  if (outcome < 0.5) {
+    commentary.push("Amazing fielding! No runs taken.");
+  } else {
+    const runsSaved = Math.floor(Math.random() * 3);
+    commentary.push(`Fielding effort saved ${runsSaved} runs!`);
+    runs -= runsSaved;
+  }
+  updateScoreboard();
+  updateCommentary();
+}
+
+// Update Commentary
+function updateCommentary() {
+  const commentaryBox = document.getElementById("commentary-box");
+  commentaryBox.innerHTML = commentary.slice(-5).map(c => `<p>${c}</p>`).join("");
+}
+
+// Start Match Button
+document.getElementById("start-match").addEventListener("click", startMatch);
+
+// Player Action Buttons
+document.getElementById("bat").addEventListener("click", bat);
+document.getElementById("bowl").addEventListener("click", bowl);
+document.getElementById("field").addEventListener("click", field);
