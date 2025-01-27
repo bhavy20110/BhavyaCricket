@@ -1,39 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Stream</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        #dplayer {
-            width: 80%;
-            max-width: 800px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #e9f5ff;
+    }
+
+    canvas {
+      border: 2px solid #000;
+      background: #75a1d0; /* Field color */
+      margin-top: 20px;
+    }
+
+    #controls {
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #0088cc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005f99;
+    }
+  </style>
 </head>
 <body>
-    <div id="dplayer"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-    <script>
-        const dp = new DPlayer({
-            container: document.getElementById('dplayer'),
-            video: {
-                url: 'https://m3umergers-cors-proxy.vercel.app/cors?url=https://starshare.live:443/live/KVSingh/KVSingh/18456.ts',
-                type: 'ts'
-            },
-            theme: '#007bff',
-            autoplay: true
-        });
-    </script>
+  <h1>Simple Cricket Game</h1>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <div id="controls">
+    <button id="joinTelegram">Join Telegram</button>
+  </div>
+
+  <script>
+    // Select canvas and set up context
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Game variables
+    let batX = canvas.width / 2 - 40; // Bat position
+    let ballX = Math.random() * canvas.width; // Ball position
+    let ballY = 0; // Ball starting height
+    let ballSpeed = 2;
+    let score = 0;
+
+    // Draw bat
+    function drawBat() {
+      ctx.fillStyle = 'brown';
+      ctx.fillRect(batX, canvas.height - 30, 80, 20);
+    }
+
+    // Draw ball
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    // Display score
+    function drawScore() {
+      ctx.font = '20px Arial';
+      ctx.fillStyle = '#000';
+      ctx.fillText('Score: ' + score, 10, 30);
+    }
+
+    // Update game
+    function updateGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw objects
+      drawBat();
+      drawBall();
+      drawScore();
+
+      // Move the ball
+      ballY += ballSpeed;
+
+      // Ball and bat collision detection
+      if (
+        ballY >= canvas.height - 40 &&
+        ballX > batX &&
+        ballX < batX + 80
+      ) {
+        ballSpeed += 0.5; // Increase speed after every hit
+        ballY = 0;
+        ballX = Math.random() * canvas.width;
+        score++;
+      }
+
+      // Ball missed
+      if (ballY > canvas.height) {
+        alert('Game Over! Your score: ' + score);
+        ballY = 0;
+        ballX = Math.random() * canvas.width;
+        ballSpeed = 2;
+        score = 0;
+      }
+
+      requestAnimationFrame(updateGame);
+    }
+
+    // Move the bat with mouse
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      batX = e.clientX - rect.left - 40;
+      if (batX < 0) batX = 0;
+      if (batX > canvas.width - 80) batX = canvas.width - 80;
+    });
+
+    // Start the game
+    updateGame();
+
+    // Telegram button
+    const telegramButton = document.getElementById('joinTelegram');
+    telegramButton.addEventListener('click', () => {
+      window.open('https://t.me/BhavyaPatel77', '_blank');
+    });
+  </script>
 </body>
 </html>
