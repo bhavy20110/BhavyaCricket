@@ -1,75 +1,41 @@
 <?php
+header("Content-Type: application/vnd.apple.mpegurl");
 
-$portal = "tatatv.cc";
-$mac = "00:1A:79:e0:68:9c";
-$deviceid = "CF53E643CDF8E4FACE18B68F36A204D8A8BBFC2C7C641A25DA6D9C8DA29E368F";
-$deviceid2 = "CF53E643CDF8E4FACE18B68F36A204D8A8BBFC2C7C641A25DA6D9C8DA29E368F";
-$serial = "2AB3EAFBD4029";
-$id = isset($_GET['id']) ? $_GET['id'] : '';
-$user_ip = $_SERVER['REMOTE_ADDR'];
-$currentTimestamp = time();
-$sig = "";
+$d0 = isset($_GET["id"]) ? $_GET["id"] : "";
+$j1 = isset($_GET["au"]) ? $_GET["au"] : "";
 
-function getBearerToken() {
-    global $mac, $user_ip, $portal;
+// Replace with actual panel URL
+$n2 = "http://tatatv.cc/stalker_portal/server/load.php?type=itv&action=create_link&cmd=ffrt%20http://localhost/ch/{$d0}&series=&forced_storage=0&disable_ad=0&download=0&force_ch_link_check=0&JsHttpRequest=1-xml";
 
-    $n1 = "http://$portal/stalker_portal/server/load.php?type=stb&action=handshake&prehash=false&JsHttpRequest=1-xml";
-    $h1 = [
-        "Cookie: mac=$mac; stb_lang=en; timezone=GMT",
-        "X-Forwarded-For: $user_ip",
-        "Referer: http://$portal/stalker_portal/c/",
-        "User-Agent: Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
-        "X-User-Agent: Model: MAG250; Link:",
-    ];
-
-    $c1_curl = curl_init();
-    curl_setopt($c1_curl, CURLOPT_URL, $n1);
-    curl_setopt($c1_curl, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($c1_curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($c1_curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($c1_curl, CURLOPT_HTTPHEADER, $h1);
-    curl_setopt($c1_curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3');
-    $res1 = curl_exec($c1_curl);
-    curl_close($c1_curl);
-
-    $response = json_decode($res1, true);
-    return $response['js']['token'];
-}
-
-$token = getBearerToken();
-
-$h2 = [
-    "Cookie: mac=$mac; stb_lang=en; timezone=GMT",
-    "X-Forwarded-For: $user_ip",
-    "Authorization: Bearer $token",
-    "Referer: http://$portal/stalker_portal/c/",
+$t4 = array(
+    "Cookie: mac=00:1A:79:e0:68:9c",  // Your MAC address
+    "Authorization: Bearer 2AF105C4CADD3071E59B5AEFDC39659A",  // Your Bearer Token
+    "Referer: http://tatatv.cc/stalker_portal/c/",
     "User-Agent: Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
     "X-User-Agent: Model: MAG250; Link:",
-];
+    "Referer: http://tatatv.cc/stalker_portal/c/",
+    "X-Device-ID: CF53E643CDF8E4FACE18B68F36A204D8A8BBFC2C7C641A25DA6D9C8DA29E368F",  // Device ID 1
+    "X-Device-ID-2: 2AB3EAFBD4029"  // Device ID 2 (SN)
+);
 
-$n2 = "http://$portal/stalker_portal/server/load.php?type=stb&action=get_profile&hd=1&ver=ImageDescription: 0.2.18-r14-pub-250; ImageDate: Fri Jan 15 15:20:44 EET 2016; PORTAL version: 5.5.0; API Version: JS API version: 328; STB API version: 134; Player Engine version: 0x566&num_banks=2&sn=$serial&stb_type=MAG254&image_version=218&video_out=hdmi&device_id=$deviceid&device_id2=$deviceid2&signature=$sig&auth_second_step=1&hw_version=1.7-BD-00&not_valid_token=0&client_type=STB&hw_version_2=7c431b0aec69b2f0194c0680c32fe4e3&timestamp=$currentTimestamp&api_signature=263&metrics={\"mac\":\"$mac\",\"sn\":\"$serial\",\"model\":\"MAG254\",\"type\":\"STB\",\"uid\":\"$deviceid\",\"random\":\"$token\"}&JsHttpRequest=1-xml";
+$n3 = curl_init();
+curl_setopt($n3, CURLOPT_URL, $n2);
+curl_setopt($n3, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($n3, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($n3, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($n3, CURLOPT_HTTPHEADER, $t4);
+curl_setopt($n3, CURLOPT_USERAGENT, 'Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3');
+curl_setopt($n3, CURLOPT_REFERER, 'http://tatatv.cc/stalker_portal/c/');
 
-$c2_curl = curl_init();
-curl_setopt($c2_curl, CURLOPT_URL, $n2);
-curl_setopt($c2_curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($c2_curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($c2_curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($c2_curl, CURLOPT_HTTPHEADER, $h2);
-curl_setopt($c2_curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3');
-$res2 = curl_exec($c2_curl);
-curl_close($c2_curl);
+$h5 = curl_exec($n3);
 
-$n4 = "http://$portal/stalker_portal/server/load.php?type=itv&action=list_channels&JsHttpRequest=1-xml";
-$c4_curl = curl_init();
-curl_setopt($c4_curl, CURLOPT_URL, $n4);
-curl_setopt($c4_curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($c4_curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($c4_curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($c4_curl, CURLOPT_HTTPHEADER, $h2);
-$res4 = curl_exec($c4_curl);
-curl_close($c4_curl);
+curl_close($n3);
 
-$channels = json_decode($res4, true);
+$i6 = json_decode($h5, true);
 
-echo json_encode($channels);
+if (isset($i6["js"]["cmd"])) {
+    $d7 = $i6["js"]["cmd"];
+    header("Location: " . $d7);
+    die;
+}
 ?>
