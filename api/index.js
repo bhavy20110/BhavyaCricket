@@ -48,15 +48,19 @@ async function getM3U() {
 
     return m3uContent;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching M3U:", error.message);
     return "#EXTM3U\n#EXTINF:-1,Error fetching channels\n";
   }
 }
 
 app.get("/api/stalker-to-m3u", async (req, res) => {
-  const m3u = await getM3U();
-  res.setHeader("Content-Type", "audio/mpegurl");
-  res.send(m3u);
+  try {
+    const m3u = await getM3U();
+    res.setHeader("Content-Type", "audio/mpegurl");
+    res.send(m3u);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 module.exports = app;
